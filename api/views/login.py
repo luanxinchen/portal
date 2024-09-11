@@ -51,7 +51,6 @@ class LoginViewSet(CreateModelMixin, viewsets.GenericViewSet):
             return Response({'code': return_code.AUTH_FAILED, 'error': '认证失败,请检查账号密码是否正确。'})
         # 创建token，传入userid和username作为载荷，设置token有效期1天
         token = create_token(payload={'id': user_obj.id, 'name': user_obj.username}, timeout=60 * 24 * 7)
-        print(token)
         return Response(
             {'code': return_code.SUCCESS,
              'results': {'id': user_obj.id, 'name': user_obj.username, 'token': token}})
