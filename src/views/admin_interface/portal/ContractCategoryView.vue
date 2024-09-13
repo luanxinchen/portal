@@ -8,7 +8,7 @@
       </div>
     </template>
 
-    <el-table :data="state.category" width="100%" @sort-change="handleSortChange">
+    <el-table :data="state.category" width="100%" @sort-change="handleSortChange" style="height: calc(100vh - 290px);">
       <el-table-column prop="sort" label="排序" sortable="custom"/>
       <el-table-column prop="title" label="标题" sortable="custom">
         <template #default="{ row }">

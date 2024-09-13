@@ -41,7 +41,7 @@
         <el-button type="primary" plain :icon="View" @click="handleReview" auto-insert-space>预览</el-button>
       </el-col>
     </el-row>
-    <el-table :data="state.contact" width="100%" @sort-change="handleSortChange">
+    <el-table :data="state.contact" width="100%" @sort-change="handleSortChange" style="height: calc(100vh - 377px);">
       <el-table-column prop="sort" label="排序" sortable="custom" width="80"/>
       <el-table-column prop="description" label="职能描述" show-overflow-tooltip/>
       <el-table-column prop="category_cn" label="分类" sortable="custom" width="100">

@@ -61,7 +61,7 @@
         <el-button type="primary" plain :icon="View" @click="handleReview" auto-insert-space>预览</el-button>
       </el-col>
     </el-row>
-    <el-table :data="state.sites" width="100%" @sort-change="handleSortChange">
+    <el-table :data="state.sites" width="100%" @sort-change="handleSortChange" style="height: calc(100vh - 377px);">
       <el-table-column prop="logo" label="Logo" width="60">
         <template #default="{ row }">
           <div style="display: flex; align-items: center;justify-content: center">

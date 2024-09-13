@@ -8,7 +8,7 @@
       </div>
     </template>
 
-    <el-table :data="state.notify" width="100%" @sort-change="handleSortChange">
+    <el-table :data="state.notify" width="100%" @sort-change="handleSortChange" style="height: calc(100vh - 290px);">
       <el-table-column prop="id" label="ID" width="80" sortable="custom"/>
       <el-table-column prop="title" label="通知标题" sortable="custom"/>
       <el-table-column prop="content" label="通知内容" sortable="custom">
@@ -61,12 +61,14 @@
     </el-table>
     <div class="example-pagination-block">
       <el-pagination
-          v-model="currentPage"
+          v-model:current-page="currentPage"
+          v-model:page-size="pageSize"
           :total="total"
-          :page-size="pageSize"
+          :page-sizes="[10,20, 50, 100]"
           :small="true"
           :background="true"
-          layout="->,prev, pager, next,total,jumper"
+          layout="->,total,sizes,prev, pager, next,jumper"
+          @size-change="handleSizeChange"
           @current-change="handlePageChange"
       />
     </div>
@@ -171,6 +173,12 @@ const formRule = reactive({
     {required: true, message: '请选择时间范围', trigger: 'blur'},
   ]
 })
+
+function handleSizeChange(size) {
+  pageSize.value = size;
+  currentPage.value = 1;  // 重置当前页码为1
+  initRequest();
+}
 
 // 切换页码时刷新页码并重载数据
 function handlePageChange(current) {

@@ -12,6 +12,7 @@
         :data="state.users"
         width="100%"
         @sort-change="handleSortChange"
+        style="height: calc(100vh - 290px);"
     >
       <el-table-column prop="id" label="ID" sortable="custom"/>
       <el-table-column prop="username" label="用户名" sortable/>
