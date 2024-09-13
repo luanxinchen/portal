@@ -45,7 +45,7 @@ class LoginViewSet(CreateModelMixin, viewsets.GenericViewSet):
         username, clean_password = serializer.validated_data.values()
         password = md5(clean_password)
 
-        user_obj = User.objects.filter(username=username,password=password).first()
+        user_obj = User.objects.filter(username=username,password=password,status=1).first()
 
         if not user_obj:
             return Response({'code': return_code.AUTH_FAILED, 'error': '认证失败,请检查账号密码是否正确。'})

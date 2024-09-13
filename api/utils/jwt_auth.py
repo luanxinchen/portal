@@ -1,9 +1,3 @@
-"""
-@Time    : 2022/10/4 0004 12:36
-@Author  : xinchen.luan
-@File    : jwt_auth.py
-@Description: 
-"""
 from django.conf import settings
 import jwt
 import datetime

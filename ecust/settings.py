@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'api',
-    'rest_framework'
+    'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -121,11 +122,20 @@ USE_TZ = False
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
+# 媒体文件的存储路径
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# 媒体文件的访问URL
+MEDIA_URL = '/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    "UNAUTHENTICATED_USER": None
+    "UNAUTHENTICATED_USER": None,
+    'DATETIME_FORMAT': "%Y-%m-%d %H:%M:%S",
+    'DEFAULT_AUTHENTICATION_CLASSES': ('api.extensions.authentication.JwtHeadersAuthentication',),
+    'DEFAULT_PAGINATION_CLASS': 'api.extensions.pagination.CustomPagination',
 }

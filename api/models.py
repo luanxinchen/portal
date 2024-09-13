@@ -4,9 +4,10 @@ from django.db import models
 class User(models.Model):
     username = models.CharField(verbose_name='用户名', max_length=32)
     password = models.CharField(verbose_name='密码', max_length=64)
+    email = models.EmailField(verbose_name='邮箱',max_length=64)
     role_choices = ((1, '超级管理员'), (2, '站点管理员'))
     role = models.SmallIntegerField(verbose_name='角色', choices=role_choices, default=1)
-    status_choices = ((1, '启用'), (2, '冻结'))
+    status_choices = ((1, '启用'), (2, '禁用'))
     status = models.SmallIntegerField(verbose_name='状态', choices=status_choices, default=1)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="更新时间")
