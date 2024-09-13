@@ -14,6 +14,83 @@ const routes = [
       title: '登录'
     }
   },
+  {
+    path: '/portal',
+    name: 'Index',
+    component: () => import('../views/user_interface/LayoutView.vue'),
+    meta: {
+      title: '门户'
+    },
+    children: [
+      {
+        path: '',
+        name: 'Portal',
+        component: () => import('../views/user_interface/PortalView.vue'),
+        meta: {
+          title: '门户页'
+        }
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    redirect: {name: 'Site'},
+    component: () => import('../views/admin_interface/FrontView.vue'),
+    meta: {
+      title: '首页'
+    },
+    children: [
+      {
+        path: 'site',
+        name: 'Site',
+        component: () => import('@/views/admin_interface/portal/SiteView.vue'),
+        meta: {
+          title: '站点管理'
+        }
+      },
+      {
+        path: 'site_catagory',
+        name: 'SiteCategory',
+        component: () => import('@/views/admin_interface/portal/SiteCategoryView.vue'),
+        meta: {
+          title: '站点分类'
+        }
+      },
+      {
+        path: 'contract',
+        name: 'Contract',
+        component: () => import('@/views/admin_interface/portal/ContractView.vue'),
+        meta: {
+          title: '职能管理'
+        }
+      },
+      {
+        path: 'contract_catagory',
+        name: 'ContractCategory',
+        component: () => import('@/views/admin_interface/portal/ContractCategoryView.vue'),
+        meta: {
+          title: '职能分类'
+        }
+      },
+      {
+        path: 'notify',
+        name: 'Notify',
+        component: () => import('@/views/admin_interface/portal/NotifyView.vue'),
+        meta: {
+          title: '通知管理'
+        }
+      },
+      {
+        path: 'user',
+        name: 'User',
+        component: () => import('../views/admin_interface/user/UserView.vue'),
+        meta: {
+          title: '用户管理'
+        }
+      },
+    ]
+  }
 ]
 
 const router = createRouter({

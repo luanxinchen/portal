@@ -15,4 +15,4 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
 installAxios(app)
-app.use(ElementPlus,{zhCn}).use(store).use(router).mount('#app')
+app.use(ElementPlus,{locale:zhCn}).use(store).use(router).mount('#app')

@@ -52,8 +52,8 @@ const tabList = reactive(["账号密码登录"])
 
 // 账号登陆
 const userForm = reactive({
-  username: 'admin',
-  password: '123456',
+  username: '',
+  password: '',
 })
 
 // 表单校验
@@ -91,7 +91,6 @@ function doUserLogin() {
         userForm
     ).then((res) => {
       // 获取响应体
-      console.log(res);
       if (res.data.code === 0) {
         // 登录成功
 
@@ -99,7 +98,7 @@ function doUserLogin() {
         store.commit('login', res.data.results)
 
         // 跳转url
-        router.replace({name: 'Dashboard'})
+        router.replace({name: 'Site'})
         ElMessage.success("欢迎回来：" + res.data.results.name)
 
 
