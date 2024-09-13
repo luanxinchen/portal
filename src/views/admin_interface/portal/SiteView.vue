@@ -44,7 +44,8 @@
         </el-col>
         <el-col :span="6" class="flex-container">
           <el-col class="select-container">
-            <el-input :prefix-icon="Search" v-model="searchForm.search" placeholder="请输入关键字" @blur="handleSearch"/>
+            <el-input :prefix-icon="Search" v-model="searchForm.search" placeholder="请输入关键字"
+                      @blur="handleSearch"/>
           </el-col>
         </el-col>
         <el-col :span="6" class="flex-container">
@@ -60,7 +61,7 @@
         <el-button type="primary" plain :icon="View" @click="handleReview" auto-insert-space>预览</el-button>
       </el-col>
     </el-row>
-    <el-table :data="state.sites" width="100%" @sort-change="handleSortChange" >
+    <el-table :data="state.sites" width="100%" @sort-change="handleSortChange">
       <el-table-column prop="logo" label="Logo" width="60">
         <template #default="{ row }">
           <div style="display: flex; align-items: center;justify-content: center">
@@ -72,7 +73,7 @@
       <el-table-column prop="title" label="标题" sortable="custom" show-overflow-tooltip/>
       <el-table-column prop="category_cn" label="分类" sortable="custom"/>
       <el-table-column prop="maintainer_cn" label="管理员"/>
-      <el-table-column prop="description" label="子标题"  show-overflow-tooltip/>
+      <el-table-column prop="description" label="子标题" show-overflow-tooltip/>
       <el-table-column prop="tips" label="网站提示" show-overflow-tooltip/>
       <el-table-column prop="is_active" label="状态" sortable="custom">
         <template #default="{ row }">
@@ -81,7 +82,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="url" label="链接" show-overflow-tooltip />
+      <el-table-column prop="url" label="链接" show-overflow-tooltip/>
 
       <el-table-column fixed="right" width="150">
         <template #header>
@@ -120,72 +121,110 @@
     </div>
   </el-card>
   <!-- 编辑/添加表单 -->
-  <el-drawer
+  <el-dialog
       v-model="dialogVisible"
       title="站点信息"
-      direction="rtl"
       :close-on-click-modal="true"
-      :size="'35%'"
+      width="70%"
   >
-    <el-scrollbar>
     <el-form
         :model="currentItem"
         :rules="formRule"
         ref="submitRef"
-        :label-position="'top'"
+        label-width="auto"
         enctype="multipart/form-data">
-      <el-form-item label="标题" prop="title">
-        <el-input v-model="currentItem.title"/>
-      </el-form-item>
-
-      <el-form-item label="描述" prop="description">
-        <el-input v-model="currentItem.description" type="textarea"/>
-      </el-form-item>
-      <el-form-item label="链接" prop="url">
-        <el-input v-model="currentItem.url"/>
-      </el-form-item>
-      <el-form-item label="管理员" prop="maintainer">
-        <el-input v-model="currentItem.maintainer"/>
-      </el-form-item>
-      <el-form-item label="提示" prop="tips">
-        <el-input v-model="currentItem.tips" type="textarea"/>
-      </el-form-item>
-      <el-form-item label="分类" prop="category">
-        <el-select v-model="currentItem.category" placeholder="请选择分类">
-          <el-option v-for="category in state.category" :key="category.id" :label="category.title"
-                     :value="category.id"/>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="排序" prop="sort">
-        <el-input-number v-model="currentItem.sort"/>
-      </el-form-item>
-      <el-form-item label="状态" prop="is_active">
-        <el-switch
-            v-model="currentItem.is_active"
-            inline-prompt/>
-      </el-form-item>
-      <el-form-item label="Logo">
-        <el-upload
-            action=""
-            class="avatar-uploader"
-            :show-file-list="false"
-            :before-upload="handleBeforeUpload"
-        >
-          <img v-if="currentItem.logo" :src="currentItem.logo" class="avatar"/>
-          <el-icon v-else class="avatar-uploader-icon">
-            <plus/>
-          </el-icon>
-        </el-upload>
-      </el-form-item>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="标题" prop="title">
+            <el-input v-model="currentItem.title"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="描述" prop="description">
+            <el-input v-model="currentItem.description"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="链接" prop="url">
+            <el-input v-model="currentItem.url"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="管理员" prop="maintainer">
+            <el-select
+                v-model="currentItem.maintainer"
+                filterable
+                remote
+                reserve-keyword
+                placeholder="搜索用户"
+                :remote-method="remoteMethod"
+                :loading="loading"
+                style="width: 240px"
+                clearable
+            >
+              <el-option
+                  v-for="user in users"
+                  :key="user.label"
+                  :label="user.label"
+                  :value="user.value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="提示" prop="tips">
+            <el-input v-model="currentItem.tips"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="分类" prop="category">
+            <el-select v-model="currentItem.category" placeholder="请选择分类">
+              <el-option v-for="category in state.category" :key="category.id" :label="category.title"
+                         :value="category.id"/>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="排序" prop="sort">
+            <el-input-number v-model="currentItem.sort"/>
+          </el-form-item>
+          <el-form-item label="状态" prop="is_active">
+            <el-radio-group v-model="currentItem.is_active">
+              <el-radio-button label="启用" :value="true" />
+              <el-radio-button label="禁用" :value="false" />
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="Logo">
+            <el-upload
+                action=""
+                class="avatar-uploader"
+                :show-file-list="false"
+                :before-upload="handleBeforeUpload"
+            >
+              <img v-if="currentItem.logo" :src="currentItem.logo" class="avatar"/>
+              <el-icon v-else class="avatar-uploader-icon">
+                <plus/>
+              </el-icon>
+            </el-upload>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
-    </el-scrollbar>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
         <el-button type="primary" @click="handleSubmit">提交</el-button>
       </span>
     </template>
-  </el-drawer>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -199,7 +238,8 @@ const state = reactive({
   sites: [],
   category: [],
 })
-
+const users = ref([]);
+const loading = ref(false)
 const dialogVisible = ref(false);
 const total = ref(0)        // 总数据量
 const pageSize = ref(10)    // 每页数据量
@@ -208,8 +248,8 @@ const searchForm = reactive({
   search: "",
   category_id: null,
   is_active: null,
-  maintainer:"",
-  tips:""
+  maintainer: "",
+  tips: ""
 });
 const currentItem = reactive({
   id: null,
@@ -221,8 +261,8 @@ const currentItem = reactive({
   logo: null,
   category: 0,
   is_active: "",
-  maintainer:"",
-  tips:""
+  maintainer: "",
+  tips: ""
 });
 const formRule = reactive({
   title: [
@@ -288,6 +328,25 @@ function handleSortChange(data) {
   initRequest();
 }
 
+const remoteMethod = async (query) => {
+  if (query !== '') {
+    loading.value = true;
+    try {
+      const response = await proxy.$axios.get(`users/`, {params: {search: query}});
+      users.value = response.data.results.map(user => ({
+        value: user.id,
+        label: user.username,
+      }));
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      loading.value = false;
+    }
+  } else {
+    users.value = [];
+  }
+};
+
 const initRequest = async () => {
   let search_param = {
     page: currentPage.value,
@@ -335,8 +394,8 @@ const handleAdd = () => {
     category: null,
     logoFile: null,
     is_active: true,
-    maintainer:'',
-    tips:''
+    maintainer: '',
+    tips: ''
   })
   dialogVisible.value = true
 }
@@ -354,7 +413,7 @@ const handleEdit = (index, row) => {
     is_active: row.is_active,
     logoFile: null,
     maintainer: row.maintainer,
-    tips:row.tips
+    tips: row.tips
   })
   dialogVisible.value = true
 }
@@ -434,6 +493,7 @@ onMounted(() => {
 .box-card {
   margin: 0 20px;
 }
+
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -452,19 +512,21 @@ onMounted(() => {
   margin-bottom: 16px;
 }
 
-.avatar-uploader .avatar {
-  width: 150px;
-  height: 150px;
-  display: block;
-}
-
 .avatar-uploader {
+  width: 100px;
+  height: 100px;
   border: 1px dashed var(--el-border-color);
   border-radius: 6px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
   transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .avatar {
+  width: 100px;
+  height: 100px;
+  display: block;
 }
 
 .avatar-uploader .el-upload:hover {
