@@ -55,7 +55,7 @@
       </el-row>
     </template>
 
-    <el-row :gutter="20" style="margin-bottom: 10px">
+    <el-row v-if="role === '1'" :gutter="20" style="margin-bottom: 10px" >
       <el-col :span="24">
         <el-button type="primary" :icon="Plus" @click="handleAdd" auto-insert-space>添加</el-button>
         <el-button type="primary" plain :icon="View" @click="handleReview" auto-insert-space>预览</el-button>
@@ -100,7 +100,7 @@
               @confirm="handleDelete(scope.$index, scope.row)"
           >
             <template #reference>
-              <el-button size="small" type="danger">删除</el-button>
+              <el-button v-if="role === '1'" size="small" type="danger">删除</el-button>
             </template>
           </el-popconfirm>
         </template>
