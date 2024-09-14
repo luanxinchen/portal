@@ -47,10 +47,13 @@ class SiteFilter(filters.BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         category_query = request.query_params.get("category_id")
         is_active = request.query_params.get("is_active")
+        user_id = request.query_params.get("user_id")
         if category_query:
             queryset = queryset.filter(category=category_query)
         if is_active:
             queryset = queryset.filter(is_active=is_active)
+        if user_id:
+            queryset = queryset.filter(maintainer=user_id)
         return queryset
 
 
