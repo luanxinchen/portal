@@ -59,25 +59,28 @@
     </div>
   </el-card>
   <!-- 编辑/添加表单 -->
-  <el-drawer
+  <el-dialog
       v-model="dialogVisible"
       title="站点分类信息"
-      direction="rtl"
+      align-center
       :close-on-click-modal="true"
-      :size="'35%'"
   >
     <el-form
         :model="currentItem"
         :rules="formRule"
-        ref="submitRef"
-        :label-position="'top'"
-        enctype="multipart/form-data">
-      <el-form-item label="标题" prop="title">
-        <el-input v-model="currentItem.title"/>
-      </el-form-item>
-      <el-form-item label="图标" prop="icon">
-        <el-input v-model="currentItem.icon"/>
-      </el-form-item>
+        ref="submitRef">
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item label="标题" prop="title">
+            <el-input v-model="currentItem.title"/>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="图标" prop="icon">
+            <el-input v-model="currentItem.icon" placeholder="请输入Icon名称"/>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-form-item label="排序" prop="sort">
         <el-input-number v-model="currentItem.sort"/>
       </el-form-item>
@@ -88,7 +91,7 @@
         <el-button type="primary" @click="handleSubmit">提交</el-button>
       </span>
     </template>
-  </el-drawer>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -126,6 +129,7 @@ const formRule = reactive({
     {required: true, message: '请输入排序号', trigger: 'blur'},
   ]
 })
+
 function handleSizeChange(size) {
   pageSize.value = size;
   currentPage.value = 1;

@@ -14,15 +14,18 @@
         </div>
         <div class="top-menu">
           <el-dropdown>
-            <span class="el-dropdown-link">
+            <div class="el-dropdown-link">
               <el-icon style="margin: 0 5px">
                 <User/>
               </el-icon>
-              <span>{{ name }}</span>
-            </span>
+              <span style="margin-right: 5px">{{ name }}</span>
+              <el-tag effect="plain" :type="role === '1' ? 'primary' : 'info'">
+            {{ role === '1' ? '超级管理员' : '网站管理员' }}
+          </el-tag>
+            </div>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="doLogout">注销</el-dropdown-item>
+                <el-dropdown-item @click="doLogout">注销登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -44,17 +47,18 @@
                 </template>
                 <el-menu-item-group title="站点导航">
                   <el-menu-item index="Site" :route="{name:'Site'}">站点管理</el-menu-item>
-                  <el-menu-item index="SiteCategory" :route="{name:'SiteCategory'}">站点类别</el-menu-item>
+                  <el-menu-item v-if="isSuperUser" index="SiteCategory" :route="{name:'SiteCategory'}">站点类别
+                  </el-menu-item>
                 </el-menu-item-group>
-                <el-menu-item-group title="职能引导">
+                <el-menu-item-group v-if="isSuperUser" title="职能引导">
                   <el-menu-item index="Contract" :route="{name:'Contract'}">职能管理</el-menu-item>
                   <el-menu-item index="ContractCategory" :route="{name:'ContractCategory'}">职能类别</el-menu-item>
                 </el-menu-item-group>
-                <el-menu-item-group title="通知">
+                <el-menu-item-group v-if="isSuperUser" title="通知">
                   <el-menu-item index="Notify" :route="{name:'Notify'}">通知发布</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
-              <el-sub-menu index="User">
+              <el-sub-menu v-if="isSuperUser" index="User">
                 <template #title>
                   <el-icon>
                     <User/>
@@ -70,7 +74,7 @@
       <el-container>
         <el-main>
           <el-scrollbar>
-            <el-breadcrumb separator="/" v-if="route.name !== 'Dashboard'" style="padding: 15px 0 15px 25px">
+            <el-breadcrumb separator="/" style="padding: 15px 0 15px 25px">
               <el-breadcrumb-item v-for="breadcrumb in breadcrumbs" :key="breadcrumb.to">
                 <router-link :to="breadcrumb.to">{{ breadcrumb.label }}</router-link>
               </el-breadcrumb-item>
@@ -99,8 +103,9 @@ import {useRouter, useRoute} from "vue-router";
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
-// const name = ref(store.state.name);
-const name = computed(() => store.state.name)
+const name = computed(() => store.state.name);
+const role = localStorage.getItem('role')
+const isSuperUser = computed(() => role === '1');
 const activeRouter = computed(() => route.name)
 
 const breadcrumbs = computed(() => {
@@ -172,6 +177,10 @@ function doLogout() {
   color: var(--el-color-primary);
   display: flex;
   align-items: center;
+}
+
+.el-dropdown-link:focus-visible {
+  outline: unset;
 }
 
 .custom-footer {

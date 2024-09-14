@@ -17,8 +17,8 @@
                 placeholder="请选择"
                 @change="handleSearch"
             >
-              <el-option label="是" value="1">启用</el-option>
-              <el-option label="否" value="0">禁用</el-option>
+              <el-option label="启用" value="1">启用</el-option>
+              <el-option label="禁用" value="0">禁用</el-option>
             </el-select>
           </el-col>
         </el-col>
@@ -152,7 +152,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item label="管理员" prop="maintainer">
+          <el-form-item v-if="role === '1'" label="管理员" prop="maintainer">
             <el-select
                 v-model="currentItem.maintainer"
                 filterable
@@ -196,8 +196,8 @@
           </el-form-item>
           <el-form-item label="状态" prop="is_active">
             <el-radio-group v-model="currentItem.is_active">
-              <el-radio-button label="启用" :value="true" />
-              <el-radio-button label="禁用" :value="false" />
+              <el-radio-button label="启用" :value="true"/>
+              <el-radio-button label="禁用" :value="false"/>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -239,6 +239,8 @@ const state = reactive({
   category: [],
 })
 const users = ref([]);
+const role = localStorage.getItem('role')
+const userID = localStorage.getItem('id')
 const loading = ref(false)
 const dialogVisible = ref(false);
 const total = ref(0)        // 总数据量
@@ -246,6 +248,7 @@ const pageSize = ref(10)    // 每页数据量
 const currentPage = ref(1)  // 当前页码
 const searchForm = reactive({
   search: "",
+  user_id: null,
   category_id: null,
   is_active: null,
   maintainer: "",
@@ -358,6 +361,10 @@ const initRequest = async () => {
     search_param.ordering = sortData.value.order === 'ascending'
         ? sortData.value.prop
         : `-${sortData.value.prop}`;
+  }
+
+  if (role === '2') {
+    search_param.user_id = userID
   }
 
   for (let key in searchForm) {

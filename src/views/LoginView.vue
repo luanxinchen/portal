@@ -99,7 +99,7 @@ function doUserLogin() {
 
         // 跳转url
         router.replace({name: 'Site'})
-        ElMessage.success("欢迎回来：" + res.data.results.name)
+        ElMessage.success("欢迎登录：" + res.data.results.name)
 
 
       } else {

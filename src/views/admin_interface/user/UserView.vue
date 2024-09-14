@@ -19,7 +19,7 @@
       <el-table-column prop="email" label="邮箱" show-overflow-tooltip sortable/>
       <el-table-column prop="role" label="用户角色" sortable>
         <template #default="{ row }">
-          <el-tag effect="dark" :type="row.role === 1 ? 'success' : 'primary'">
+          <el-tag effect="dark" :type="row.role === 1 ? 'primary' : 'info'">
             {{ row.role === 1 ? '超级管理员' : '网站管理员' }}
           </el-tag>
         </template>
@@ -110,7 +110,7 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="24">
+        <el-col :span="14">
           <el-form-item label="用户角色" prop="role">
             <el-radio-group v-model="currentItem.role">
               <el-radio border :label="1">超级管理员</el-radio>
@@ -118,9 +118,7 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="24">
+        <el-col :span="10">
           <el-form-item label="状态" prop="status">
             <el-radio-group v-model="currentItem.status">
               <el-radio-button :label="1">激活</el-radio-button>
