@@ -16,14 +16,14 @@ class SuperUserPermission(permissions.BasePermission):
 
 class SuperUserEditAndGuestReadOnly(permissions.BasePermission):
     """
-    超级用户可写，其他用户可读
+    登录用户可写，访客可读
     """
     message = {'code': return_code.PERMISSION_ERROR, 'error': '请求无权限'}
 
     def has_permission(self, request, view):
         return bool(
             request.method in permissions.SAFE_METHODS or
-            request.user.role == 1
+            request.user.role
         )
 
 
