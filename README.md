@@ -17,17 +17,15 @@
 
 ## 图片示例
 
-![首页](D:\Coding\portal\images\1.png)
+![首页](https://raw.githubusercontent.com/luanxinchen/portal/refs/heads/master/images/1.png)
 
-![登录页](D:\Coding\portal\images\2.png)
+![登录页](https://raw.githubusercontent.com/luanxinchen/portal/refs/heads/master/images/2.png)
 
-![后台](D:\Coding\portal\images\3.png)
+![后台](https://raw.githubusercontent.com/luanxinchen/portal/refs/heads/master/images/3.png)
 
-![模态窗口](D:\Coding\portal\images\4.png)
+![模态窗口](https://raw.githubusercontent.com/luanxinchen/portal/refs/heads/master/images/4.png)
 
-![打印服务台](D:\Coding\portal\images\5.png)
+![打印服务台](https://raw.githubusercontent.com/luanxinchen/portal/refs/heads/master/images/5.png)
 
-![AI助手](D:\Coding\portal\images\6.png)
-
-***欢迎关注，进行产品和技术交流。***
+![AI助手](https://raw.githubusercontent.com/luanxinchen/portal/refs/heads/master/images/6.png)
 
